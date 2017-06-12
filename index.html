@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html ng-app="singleview">
+
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+		<meta charset="UTF-8" />
+		<title ng-bind="pageTitle"></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="/portal/themes/default/eview_modules/portal/com.iemp.framework.ui/1.0.0/css/templateLayout.css" type="text/css" rel="stylesheet">
+		<link type="image/x-icon" href="/portal/themes/default/framework/images/logo_huawei.ico" rel="shortcut icon">
+		<link rel="stylesheet" type="text/css" href="/portal/themes/default/components/components.min.css" />
+		<link rel="stylesheet" type="text/css" href="/portal/themes/default/framework/css/style.css">
+		<link rel="stylesheet" type="text/css" href="/portal/themes/default/3rd_plugin/jquery_ui/css/jquery-ui.min.css" />
+		<link type="text/css" href="/portal/themes/default/ui_cceframework/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="/portal/themes/default/ui_cceframework/css/ossFramework.css">
+		<link type="text/css" href="../theme/default/css/app.css" rel="stylesheet">
+	</head>
+
+	<body ng-controller="IndexController">
+		<div class="container">
+			<div id="mapType-wrapper" class="ng-hide" ng-show="$state.current.name =='overview' || $state.current.name =='server' || $state.current.name =='topohome' || $state.current.name =='nemanager' || $state.current.name =='creatTemplate' || $state.current.name =='setTemplate'">
+				<div id="mapType">
+					<!--<div ng-if="$state.current.name =='networktopo'" ui-sref="networktopo" class="mapTypeCard netCole active">
+						<span ng-bind="i18n.networktopo"></span>
+					</div>
+					<div ng-if="$state.current.name !='networktopo'" ui-sref="networktopo" class="mapTypeCard netCole">
+						<span ng-bind="i18n.networktopo"></span>
+					</div>-->
+					<div ng-if="$state.current.name =='topohome'" ui-sref="topohome" class="mapTypeCard cirCole active">
+						<span ng-bind="i18n.topo"></span>
+					</div>
+					<div ng-if="$state.current.name !='topohome'" ui-sref="topohome" class="mapTypeCard cirCole">
+						<span ng-bind="i18n.topo"></span>
+					</div>
+					<div ng-if="$state.current.name =='server'" ui-sref="server" class="mapTypeCard satellite active">
+						<span ng-bind="i18n.pd"></span>
+					</div>
+					<div ng-if="$state.current.name !='server'" ui-sref="server" class="mapTypeCard satellite">
+						<span ng-bind="i18n.pd"></span>
+					</div>
+					<div ng-if="$state.current.name =='overview'" ui-sref="overview" class="mapTypeCard panorama choosedType active">
+						<span ng-bind="i18n.home"></span>
+					</div>
+					<div ng-if="$state.current.name !='overview'" ui-sref="overview" class="mapTypeCard panorama choosedType">
+						<span ng-bind="i18n.home"></span>
+					</div>
+				</div>
+			</div>
+
+			<div ng-cloak class="row head-nav white-bg" ng-if="$state.current.name == 'overview'">
+				<div class="col-xs-6">
+					<div id="breadcrumb">
+						<div breadcrumb options="options"></div>
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<div class="topo-list-switch">
+						<div ng-cloak ng-if="$state.current.name =='vmlist'">
+							<img id="topoPanel" class="pointer" src="../theme/default/images/topoup.png" alt="" ng-click="clicktopoShow()" />
+							<img id="listPanel" class="pointer" src="../theme/default/images/listdown.png" alt="" style="margin-left: -4px" ng-click="clicklistShow()" />
+						</div>
+						<div ng-cloak ng-if="$state.current.name == 'overview' || $state.current.name =='server'">
+							<img id="topoPanel" class="pointer" src="../theme/default/images/topodown.png" alt="" ng-click="clicktopoShow()" />
+							<img id="listPanel" class="pointer" src="../theme/default/images/listup.png" alt="" style="margin-left: -4px" ng-click="clicklistShow()" />
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div ng-cloak class="row head-nav" ng-if="$state.current.name != 'overview'">
+				<div class="col-xs-6">
+					<div id="breadcrumb">
+						<div breadcrumb options="options"></div>
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<div class="topo-list-switch">
+						<div ng-cloak ng-if="$state.current.name =='vmlist'">
+							<img id="topoPanel" class="pointer" src="../theme/default/images/topoup.png" alt="" ng-click="clicktopoShow()" />
+							<img id="listPanel" class="pointer" src="../theme/default/images/listdown.png" alt="" style="margin-left: -4px" ng-click="clicklistShow()" />
+						</div>
+						<div ng-cloak ng-if="$state.current.name == 'overview' || $state.current.name =='server' || $state.current.name =='topohome' || $state.current.name =='setmanage'">
+							<img id="topoPanel" class="pointer" src="../theme/default/images/topodown.png" alt="" ng-click="clicktopoShow()" />
+							<img id="listPanel" class="pointer" src="../theme/default/images/listup.png" alt="" style="margin-left: -4px" ng-click="clicklistShow()" />
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" style="height:calc(100% - 50px)">
+				<div class="col-xs-12" style="position:relative;height:100%">
+					<div ng-cloak ng-if="$state.current.name =='resourceviewdc' || $state.current.name =='dcvmlist' ||  $state.current.name =='statistics'" ng-controller="DCstatisticsController">
+						<div id="DCstatisticsId" class="dcSta whole-list-left-div" style="float:left;">
+							<div id="dcLeft">
+								<eview:accordion-menu id="dcAccordion" width="100%" height="700" dataset="dcData" click="dcMenuClickHandler" header="header"></eview:accordion-menu>
+							</div>
+						</div>
+					</div>
+					<div ng-cloak ui-view="vmlistMenu" ng-if="$state.current.name =='vmlist'"></div>
+					<div ng-cloak ui-view="vmlist" ng-if="$state.current.name =='vmlist' || $state.current.name =='dcvmlist'"></div>
+
+					<div ui-view="overview" ng-if="$state.current.name =='overview'"></div>
+					<div ui-view="statistics" ng-if="$state.current.name =='overview' || $state.current.name =='statistics'"></div>
+					<div ui-view="topohome" style="height:100%" ng-cloak ng-if="$state.current.name =='topohome'"></div>
+					<!--<div ui-view="networktopo"></div>-->
+					<div ui-view="resourceview"></div>
+					<div ng-cloak ui-view="server" ng-if="$state.current.name == 'server'"></div>
+					<div ui-view="checkBoxFunc" class="check-Box" ng-if="$state.current.name =='topohome'"></div>
+					<div ng-cloak ui-view="canvasfunc" class="canvas-func" ng-if="$state.current.name == 'resourceview' || $state.current.name =='overview' || $state.current.name =='resourceviewdc' || $state.current.name =='topohome'"></div>
+					<!--<div ng-cloak ui-view="topocommon" class="topo-common" ng-if="$state.current.name =='topohome'"></div>-->
+					<div ui-view="detailView" class="ng-hide" style="position: absolute; right: 20px; top: 45px; z-index: 999;" ng-show="$state.current.name =='resourceview' || $state.current.name =='resourceviewdc' || $state.current.name =='topohome'|| $state.current.name =='server' || $state.current.name =='dcsta'"></div>
+                    <div ui-view="nefilter" ng-if="$state.current.name == 'topohome'" style="width: 300px; position: absolute; right: 20px; top: 60px; z-index: 999;" ></div>
+                    <div ng-cloak ui-view="setmanage" ng-if="$state.current.name =='setmanage'"></div>
+                    <div ng-cloak ui-view="ennodeb" ng-if="$state.current.name =='ennodeb'"></div>
+                    <!--<div ng-cloak ui-view="ennodebadd" ng-if="$state.current.name =='setmanage'"></div>-->
+                    <div ng-cloak ui-view="setTemplate" ng-if="$state.current.name =='setTemplate'"></div> 
+                    <div ng-cloak ui-view="creatTemplate" ng-if="$state.current.name =='creatTemplate'"></div>
+				</div>
+			</div>
+			
+			
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div ui-view="nemanager"></div>
+                </div>
+            </div>
+        </div>
+
+        <script src="/portal/combo/themes/default?3rd_lib/3rdlib.min.js&framework/js/framework.min.js&components/components.min.js&3rd_plugin/jquery_ui/js/jquery-ui.min.js"></script>
+        <script src="/portal/themes/default/components/eview/js/eview.basic.min.js"></script>
+        <script src="/portal/themes/default/components/eview/js/eview.charts.min.js"></script>
+
+        <script type="text/javascript" src="/portal/themes/default/ui_cceframework/jquery-mousewheel-3.1.13/jquery.mousewheel.min.js"></script>
+        <script type="text/javascript" src="/portal/themes/default/ui_cceframework/jquery-nicescroll/jquery.nicescroll.min.js"></script>
+        <script src="/portal/themes/default/ui_cceframework/js/ossFramework.js"></script>
+        <script type="text/javascript" src="/portal/themes/default/ui_cceframework/echarts-2.2.7/echarts-all.js"></script>
+
+        <script type="text/javascript" src="/portal/themes/default/components/twaver/js/twaver.js"></script>
+        <script type="text/javascript" src="/portal/themes/default/components/twaver/js/license.js"></script>
+        <script type="text/javascript" src="/portal/themes/default/ui_cceframework/angular-ui-router/angular-ui-router.min.js"></script>
+        <script type="text/javascript" src="build/all.js"></script>
+        <!--
+        <script type="text/javascript" src="js/app.js"></script>
+        <script type="text/javascript" src="js/common/SafeUtil.js"></script>
+        <script type="text/javascript" src="js/common/util.js"></script>
+        <script type="text/javascript" src="js/common/directives.js"></script>
+        <script type="text/javascript" src="js/common/filters.js"></script>
+
+        <script type="text/javascript" src="js/common/services/businessTopoServ.js"></script>
+        <script type="text/javascript" src="js/common/services/neManagerServ.js"></script>
+        <script type="text/javascript" src="js/common/services/networkTopoServ.js"></script>
+        <script type="text/javascript" src="js/common/services/resourceViewServ.js"></script>
+        <script type="text/javascript" src="js/common/services/statisticPanelServ.js"></script>
+        <script type="text/javascript" src="js/common/services/vmListServ.js"></script>
+        <script type="text/javascript" src="js/common/services/commonDataServ.js"></script>
+        <script type="text/javascript" src="js/common/services/i18nServ.js"></script>
+        <script type="text/javascript" src="js/common/services/detailViewServ.js"></script>
+        <script type="text/javascript" src="js/common/services/overViewServ.js"></script>
+        <script type="text/javascript" src="js/common/services/serverServ.js"></script>
+        <script type="text/javascript" src="js/common/services/overViewAllServ.js"></script>
+
+        <script type="text/javascript" src="js/businesstopo/BusinessTopoController.js"></script>
+        <script type="text/javascript" src="js/IndexController.js"></script>
+        <script type="text/javascript" src="js/networktopo/NetworkTopoController.js"></script>
+        <script type="text/javascript" src="js/resourceview/ResourceViewController.js"></script>
+        <script type="text/javascript" src="js/nemanager/neSelectController.js"></script>
+        <script type="text/javascript" src="js/nemanager/neConfigController.js"></script>
+        <script type="text/javascript" src="js/nemanager/groupConfigController.js"></script>
+        <script type="text/javascript" src="js/nemanager/topoInclude.js"></script>
+        <script type="text/javascript" src="js/nemanager/NeManagerController.js"></script>
+        <script type="text/javascript" src="js/nemanager/selectGroupController.js"></script>
+        <script type="text/javascript" src="js/nemanager/addGroupController.js"></script>
+        <script type="text/javascript" src="js/vmlist/vmInclude.js"></script>
+        <script type="text/javascript" src="js/vmlist/VmListIndexController.js"></script>
+        <script type="text/javascript" src="js/vmlist/VmListController.js"></script>
+        <script type="text/javascript" src="js/overview/DCInformController.js"></script>
+        <script type="text/javascript" src="js/overview/StatisticsController.js"></script>
+        <script type="text/javascript" src="js/overview/DCstatisticsController.js"></script>
+        <script type="text/javascript" src="js/overview/OverviewAllController.js"></script>
+        <script type="text/javascript" src="js/overview/OverViewController.js"></script>
+        <script type="text/javascript" src="js/overview/CheckBoxFuncController.js"></script>
+        <script type="text/javascript" src="js/detailView/DetailViewController.js"></script>
+        <script type="text/javascript" src="js/businesstopo/CanvasFuncController.js"></script>
+        <script type="text/javascript" src="js/businesstopo/NeFilterController.js"></script>
+        <script type="text/javascript" src="js/server/server.js"></script>
+        <script type="text/javascript" src="js/server/serverDetail.js"></script>
+        <script type="text/javascript" src="js/setManage/setManageController.js"></script>
+        <script type="text/javascript" src="js/setManage/enNodeBAddGroupController.js"></script>
+        <script type="text/javascript" src="js/setManage/enNodeBManageController.js"></script>
+        -->
+    </body>
+</html>
